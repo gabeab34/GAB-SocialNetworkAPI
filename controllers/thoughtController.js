@@ -1,20 +1,20 @@
 import { Thought, User } from "../models/index.js";
 
-const getAllThoughts = (req, res =>
+const getAllThoughts = (req, res) => {
       Thought.find()
         .then((thoughts) => res.json(thoughts))
-        .catch((err) => res.status(500).json(err)));
-    
-const getSingleThought = (req, res =>
+        .catch((err) => res.status(500).json(err));
+}    
+const getSingleThought = (req, res) => {
       Thought.findOne({ _id: req.params.thoughtId })
         .then((thought) =>
           !thought
             ? res.status(404).json({ message: 'No thought with that particular ID' })
             : res.json(thought)
         )
-        .catch((err) => res.status(500).json(err)));
-   
-const createThought = (req, res =>
+        .catch((err) => res.status(500).json(err));
+}   
+const createThought = (req, res) => {
       Thought.create(req.body)
         .then(( _id ) => {
           return User.findOneAndUpdate(
@@ -31,9 +31,9 @@ const createThought = (req, res =>
         .catch((err) => {
           console.log(err);
           res.status(500).json(err);
-        }));
-   
-const updateThought = (req, res =>
+        });
+}   
+const updateThought = (req, res) => {
       Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
         { $set: req.body },
@@ -47,9 +47,9 @@ const updateThought = (req, res =>
         .catch((err) => {
           console.log(err);
           res.status(500).json(err);
-        }));
-    
-const deleteThought = (req, res => 
+        });
+}    
+const deleteThought = (req, res) => {
       Thought.findOneAndDelete({ _id: req.params.thoughtId })
         .then((thought) =>
           !thought
@@ -65,10 +65,10 @@ const deleteThought = (req, res =>
             ? res.status(404).json({ message: 'Thought deleted, but no user found with this particular ID' })
             : res.json({ message: 'Thought successfully deleted' })
         )
-        .catch((err) => res.status(500).json(err)));
-    
+        .catch((err) => res.status(500).json(err));
+}    
 
-const createReaction = (req, res => 
+const createReaction = (req, res) => {
       Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
         { $addToSet: { responses: req.body } },
@@ -79,9 +79,9 @@ const createReaction = (req, res =>
             ? res.status(404).json({ message: 'No thought found with this particular ID' })
             : res.json(thought)
         )
-        .catch((err) => res.status(500).json(err)));
-   
-const deleteReaction = (req, res => 
+        .catch((err) => res.status(500).json(err));
+}   
+const deleteReaction = (req, res) => {
       Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
         { $pull: { reactions: { reactionId: req.params.reactionId } } },
@@ -92,7 +92,7 @@ const deleteReaction = (req, res =>
             ? res.status(404).json({ message: 'No thought found with this particular ID' })
             : res.json(thought)
         )
-        .catch((err) => res.status(500).json(err)));
-
+        .catch((err) => res.status(500).json(err));
+}
 export {getAllThoughts, getSingleThought, createThought, updateThought, deleteThought, createReaction, deleteReaction};
    
