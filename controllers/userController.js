@@ -1,12 +1,12 @@
 import { User, Thought } from "../models/index.js";
 
 
-getAllUsers(req, res) 
-      User.find()
+const getAllUsers = (req, res =>
+      User.find({})
         .then((users) => res.json(users))
-        .catch((err) => res.status(500).json(err));
+        .catch((err) => res.status(500).json(err)));
     
- getSingleUser(req, res) 
+const getSingleUser = (req, res =>
       User.findOne({ _id: req.params.userId })
         .populate("thoughts")
         .populate("friends")
@@ -16,16 +16,16 @@ getAllUsers(req, res)
             ? res.status(404).json({ message: 'No user found with that ID' })
             : res.json(user)
         )
-        .catch((err) => res.status(500).json(err));
+        .catch((err) => res.status(500).json(err)));
     
 
-newUser(req, res) 
+const newUser = (req, res =>
       User.create(req.body)
         .then((newUserData) => res.json(newUserData))
-        .catch((err) => res.status(500).json(err));
+        .catch((err) => res.status(500).json(err)));
     
  
-updateUser(req, res) 
+const updateUser = (req, res =>
         User.findOneAndUpdate(
             { _id: req.params.userId },
             { $set: req.body },
@@ -36,10 +36,10 @@ updateUser(req, res)
                 ? res.status(404).json ({ message: "No user found with this particular ID" })
                 : res.json(user)
             )
-            .catch((err) => res.status(500).json(err));
+            .catch((err) => res.status(500).json(err)));
     
 
-deleteUser(req, res) 
+const deleteUser = (req, res =>
         User.findOneandDelete({ _id: req.params.userId })
          .then((user) =>
             !user
@@ -47,10 +47,10 @@ deleteUser(req, res)
                 : Thought.deleteMany({ _id: { $in: user.thoughts } })
          )
          .then(() => res.json ({ message: "User and associated thoughts deleted" }))
-         .catch((err) => res.status(500).json(err));
+         .catch((err) => res.status(500).json(err)));
     
 
-addFriend(req, res) 
+const addFriend = (req, res =>
         User.findOneAndUpdate(
             { _id: req.params.userId },
             { $addToSet: { friends: req.params.friendId }},
@@ -61,10 +61,10 @@ addFriend(req, res)
                  ? res.status(404).json({ message: "No user found with this particular ID" })
                  : res.json(user)
             )
-            .catch((err) => res.status(500).json(err));
+            .catch((err) => res.status(500).json(err)));
     
 
-deleteFriend(req, res) 
+const deleteFriend = (req, res => 
         User.findOneAndUpdate(
             { _id: req.params.userId },
             { $pull: { friends: req.params.friendId }},
@@ -75,6 +75,6 @@ deleteFriend(req, res)
                  ? res.status(404).json({ message: "No user found with this particular ID" })
                  : res.json(user)    
             )
-            .catch((err) => res.status(500).json(err));
+            .catch((err) => res.status(500).json(err)));
     
-export {getAllUsers, getSingleUser, newUser, updateUser, deleteUser, addFriend, deleteFriend };
+export { getAllUsers, getSingleUser, newUser, updateUser, deleteUser, addFriend, deleteFriend };

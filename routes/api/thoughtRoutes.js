@@ -16,4 +16,4 @@ router.route("/:thoughtId").get(getSingleThought).put(updateThought).delete(dele
 
 router.route("/:thoughtId/reactions").post(createReaction).delete(deleteReaction);
 
-export default router
+export default router;
