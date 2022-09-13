@@ -50,4 +50,5 @@ const reactionSchema = new Schema({
 });
 
 const Thought = model('thought', thoughtSchema);
-export default Thought;
+
+export default Thought
