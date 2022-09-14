@@ -40,7 +40,7 @@ const updateUser = (req, res) => {
 }    
 
 const deleteUser = (req, res) => {
-        User.findOneandDelete({ _id: req.params.userId })
+        User.findOneAndRemove({ _id: req.params.userId })
          .then((user) =>
             !user
                 ? res.status(404).json({ message: "No user found with this particular ID" })
