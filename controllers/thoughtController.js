@@ -71,13 +71,14 @@ const deleteThought = (req, res) => {
 const createReaction = (req, res) => {
       Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
-        { $addToSet: { responses: req.body } },
+        { $addToSet: { reactions: req.body } },
         { runValidators: true, new: true }
       )
-        .then((thought) =>
+        .then((thought) => {
+          console.log("reaction: ", thought)
           !thought
             ? res.status(404).json({ message: 'No thought found with this particular ID' })
-            : res.json(thought)
+            : res.json(thought)}
         )
         .catch((err) => res.status(500).json(err));
 }   

@@ -18,6 +18,7 @@ const reactionSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now,
+        get:strDate => new Date(strDate).toDateString()
     },
 },
 {
@@ -26,6 +27,7 @@ const reactionSchema = new Schema({
         virtuals: true,
         getters: true,
     },
+        id: false
 });
 
 const thoughtSchema = new Schema({
@@ -35,6 +37,7 @@ const thoughtSchema = new Schema({
               },
     createdAt: {type: Date,
                 default: Date.now,
+                get:strDate => new Date(strDate).toDateString()
                },
     username: {type: String,
                required: true
@@ -42,7 +45,6 @@ const thoughtSchema = new Schema({
     reactions: [reactionSchema]           
     },
     {
-        timestamps: true,
         toJSON: {
             getters: true,
             virtuals: true
